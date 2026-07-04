@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQLVault — SQL Interview Prep for Indian Tech Roles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0F;--surface:#12121A;--surface2:#1A1A26;--border:#2A2A3A;
+  --primary:#4F46E5;--primary-light:#6366F1;--accent:#B5FF2D;--accent-dim:#8BC522;
+  --text:#F0F0EB;--text-2:#A8A8B8;--text-3:#6B6B80;
+  --green:#22C55E;--red:#EF4444;--orange:#F97316;--radius:12px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* LIVE BAR */
+.live-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden}
+.live-bar-inner{display:flex;align-items:center;gap:0;white-space:nowrap;animation:scroll 30s linear infinite}
+.live-bar-inner:hover{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.lbi{display:inline-flex;align-items:center;gap:8px;padding:0 36px;font-size:12.5px;font-weight:500;color:var(--text-2);font-family:'Space Grotesk',sans-serif}
+.lbi b{color:var(--accent);font-weight:700}
+.gdot{width:6px;height:6px;background:var(--green);border-radius:50%;display:inline-block;animation:gp 1.4s ease infinite;margin-right:4px}
+@keyframes gp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:400;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:62px;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:var(--text);text-decoration:none;letter-spacing:-.3px}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-viewers{font-size:12px;color:var(--text-3);font-weight:500;display:flex;align-items:center;gap:6px}
+.nav-cta{background:var(--accent);color:#0A0A0F;font-size:13px;font-weight:700;padding:9px 22px;border-radius:100px;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .15s}
+.nav-cta:hover{background:#c8ff4a;transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 5vw 60px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(79,70,229,.2) 0%,transparent 70%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(79,70,229,.12);border:1px solid rgba(79,70,229,.3);color:var(--primary-light);font-size:12.5px;font-weight:600;padding:6px 16px;border-radius:100px;margin-bottom:32px;font-family:'Space Grotesk',sans-serif;letter-spacing:.5px}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5.5vw,68px);font-weight:700;line-height:1.08;letter-spacing:-2px;color:var(--text);max-width:800px;margin:0 auto 24px}
+h1 span{color:var(--accent)}
+.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text-2);max-width:540px;margin:0 auto 44px;line-height:1.65}
+
+/* SQL BLOCK */
+.sql-demo{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 28px;max-width:580px;margin:0 auto 44px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.85;position:relative}
+.sql-demo::before{content:'SQL';position:absolute;top:-1px;right:20px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:0 0 8px 8px;font-family:'Inter',sans-serif;letter-spacing:.8px}
+.kw{color:#818CF8}.fn{color:#34D399}.str{color:var(--accent)}.cm{color:var(--text-3)}
+.cursor{display:inline-block;width:2px;height:1em;background:var(--accent);vertical-align:text-bottom;animation:blink .85s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* BUTTONS */
+.hero-actions{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.btn-primary{background:var(--accent);color:#0A0A0F;font-size:15px;font-weight:700;padding:15px 36px;border-radius:100px;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.btn-primary:hover{background:#c8ff4a;transform:translateY(-2px);box-shadow:0 8px 30px rgba(181,255,45,.2)}
+.btn-ghost{background:transparent;color:var(--text-2);font-size:14px;font-weight:500;padding:14px 28px;border-radius:100px;border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:var(--text-3);color:var(--text)}
+.hero-note{font-size:12.5px;color:var(--text-3);margin-top:8px}
+
+/* PROOF */
+.proof-bar{display:flex;align-items:center;justify-content:center;gap:40px;padding:28px 5vw;border-top:1px solid var(--border);flex-wrap:wrap}
+.proof-item{text-align:center}
+.proof-num{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:var(--text);letter-spacing:-1px}
+.proof-num span{color:var(--accent)}
+.proof-label{font-size:12px;color:var(--text-3);margin-top:2px}
+.proof-sep{width:1px;height:40px;background:var(--border)}
+
+/* SECTIONS */
+section{padding:90px 5vw}
+.section-label{font-size:11.5px;font-weight:700;letter-spacing:2px;color:var(--primary-light);text-transform:uppercase;font-family:'Space Grotesk',sans-serif;margin-bottom:14px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,3.8vw,42px);font-weight:700;letter-spacing:-1.5px;color:var(--text);margin-bottom:16px;line-height:1.1}
+.section-sub{font-size:17px;color:var(--text-2);max-width:520px;line-height:1.65}
+
+/* INSIDE GRID */
+.inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;margin-top:56px;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--border)}
+.inside-card{background:var(--surface);padding:30px;transition:background .2s}
+.inside-card:hover{background:var(--surface2)}
+.inside-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.inside-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;color:var(--text)}
+.inside-desc{font-size:13.5px;color:var(--text-2);line-height:1.65}
+.inside-count{margin-top:14px;display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent)}
+
+/* CHAPTERS */
+.chapter-row{display:flex;align-items:center;gap:18px;padding:18px 0;border-bottom:1px solid var(--border);transition:padding .15s}
+.chapter-row:hover{padding-left:8px}
+.ch-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);width:28px;flex-shrink:0}
+.ch-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:var(--text);flex:1}
+.ch-count{font-size:12.5px;color:var(--text-3);font-family:'JetBrains Mono',monospace;background:var(--surface);padding:3px 10px;border-radius:100px;border:1px solid var(--border)}
+.ch-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px}
+.tag-core{background:rgba(79,70,229,.12);color:#818CF8}
+.tag-scene{background:rgba(181,255,45,.08);color:var(--accent-dim)}
+.tag-bonus{background:rgba(34,197,94,.08);color:var(--green)}
+
+/* SAMPLE */
+.sample-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:56px}
+.sample-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:border-color .2s,transform .2s}
+.sample-card:hover{border-color:var(--primary);transform:translateY(-3px)}
+.sample-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.diff{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+.diff-e{background:rgba(34,197,94,.1);color:#22C55E}
+.diff-m{background:rgba(249,115,22,.1);color:#F97316}
+.diff-h{background:rgba(239,68,68,.1);color:#EF4444}
+.co-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:rgba(129,140,248,.1);color:#818CF8;font-family:'Space Grotesk',sans-serif}
+.sample-q{font-size:14px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+.sample-hint{font-size:13px;color:var(--text-3);line-height:1.55}
+
+/* COMPARE */
+.ctable{width:100%;border-collapse:collapse;margin-top:56px;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.ctable th{background:var(--surface);padding:16px 20px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13.5px;text-align:left;border-bottom:1px solid var(--border)}
+.ctable th:first-child{color:var(--text-3)}.ctable th.us{color:var(--accent)}
+.ctable td{padding:14px 20px;font-size:13.5px;border-bottom:1px solid var(--border)}
+.ctable tr:last-child td{border-bottom:none}
+.ctable td:first-child{color:var(--text-2);font-weight:500}
+.ctable td.yes{color:var(--green);font-weight:600}.ctable td.no{color:var(--text-3)}
+.ctable tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:56px}
+.testi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px}
+.testi-stars{color:var(--accent);font-size:13px;letter-spacing:2px;margin-bottom:14px}
+.testi-text{font-size:14px;color:var(--text-2);line-height:1.72;margin-bottom:18px;font-style:italic}
+.testi-person{display:flex;align-items:center;gap:11px}
+.tavi{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.tname{font-weight:600;font-size:13.5px;color:var(--text);font-family:'Space Grotesk',sans-serif}
+.trole{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* FAQ */
+.faq-list{margin-top:56px;max-width:700px}
+.faq-item{border-bottom:1px solid var(--border);padding:22px 0}
+.faq-q{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none}
+.faq-q::after{content:'+';font-size:22px;color:var(--text-3);font-weight:300;flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg);color:var(--accent)}
+.faq-a{font-size:14px;color:var(--text-2);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:400px;padding-top:14px}
+
+/* CTA BLOCK */
+.cta-section{margin:0 5vw 80px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);padding:80px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(181,255,45,.06) 0%,transparent 70%)}
+.cta-price{font-family:'Space Grotesk',sans-serif;font-size:clamp(52px,8vw,84px);font-weight:700;color:var(--text);letter-spacing:-3px;margin:20px 0 6px}
+.cta-price span{color:var(--accent)}
+.cta-original{font-size:18px;color:var(--text-3);text-decoration:line-through;margin-bottom:4px}
+.cta-save{font-size:14px;color:var(--green);font-weight:600;margin-bottom:36px}
+.cta-includes{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-bottom:36px}
+.cta-inc{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--text-2)}
+.cta-inc::before{content:'✓';color:var(--green);font-weight:700}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-left{font-size:13px;color:var(--text-3)}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap}
+.footer-link{font-size:13px;color:var(--text-3);cursor:pointer;background:none;border:none;transition:color .15s;text-decoration:underline;text-underline-offset:3px}
+.footer-link:hover{color:var(--text-2)}
+
+/* STICKY */
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(10,10,15,.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:14px 5vw;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;transform:translateY(100%);transition:transform .3s}
+.sticky-bar.on{transform:translateY(0)}
+.sticky-info{font-size:13.5px;color:var(--text-2)}
+.sticky-info strong{color:var(--text);font-family:'Space Grotesk',sans-serif}
+.sticky-right{display:flex;align-items:center;gap:14px}
+.sticky-price{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-1px}
+
+/* TOAST */
+#toast{position:fixed;bottom:90px;left:20px;z-index:600;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px 16px;min-width:270px;max-width:330px;display:flex;align-items:center;gap:11px;transform:translateX(-130%);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+#toast.on{transform:translateX(0)}
+.tst-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff}
+.tst-txt{font-size:13px;line-height:1.4}
+.tst-txt strong{color:var(--text);font-weight:600}.tst-txt span{color:var(--text-3)}
+
+/* MODAL OVERLAY */
+.modal-ov{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;padding:0}
+.modal-ov.on{display:flex}
+@media(min-width:600px){.modal-ov{align-items:center;padding:20px}}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:24px 24px 0 0;width:100%;max-width:500px;padding:30px 26px 34px;position:relative;max-height:90vh;overflow-y:auto}
+@media(min-width:600px){.modal{border-radius:24px}}
+.modal-x{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--text-2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.modal-x:hover{background:var(--border)}
+.modal h2{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-.4px}
+.modal-sub{font-size:13.5px;color:var(--text-3);margin-bottom:22px}
+.form-grp{margin-bottom:14px}
+.form-grp label{display:block;font-size:12.5px;font-weight:600;color:var(--text-2);margin-bottom:5px;font-family:'Space Grotesk',sans-serif}
+.form-grp input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:15px;padding:12px 15px;border-radius:10px;outline:none;transition:border-color .15s;font-family:'Inter',sans-serif}
+.form-grp input:focus{border-color:var(--primary)}
+.form-grp input::placeholder{color:var(--text-3)}
+.order-box{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:15px;margin-bottom:18px}
+.order-row{display:flex;justify-content:space-between;align-items:center;font-size:13.5px}
+.order-row+.order-row{margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.order-label{color:var(--text-2)}.order-val{font-weight:700;color:var(--text);font-family:'Space Grotesk',sans-serif}
+.order-val.ac{color:var(--accent)}
+.pay-btn{width:100%;background:var(--accent);color:#0A0A0F;font-size:15.5px;font-weight:700;padding:15px;border-radius:11px;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s;margin-top:2px}
+.pay-btn:hover{background:#c8ff4a}
+.modal-fine{font-size:12px;color:var(--text-3);text-align:center;margin-top:12px;line-height:1.65}
+.modal-fine a{color:var(--text-3);text-decoration:underline;cursor:pointer}
+
+/* POLICY MODAL */
+.policy-ov{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+.policy-ov.on{display:flex}
+.policy-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:560px;max-height:80vh;overflow-y:auto;position:relative}
+.policy-hdr{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+.policy-hdr h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--text)}
+.policy-body{padding:22px}
+.policy-body h4{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:700;color:var(--text);margin:18px 0 7px}
+.policy-body h4:first-child{margin-top:0}
+.policy-body p,.policy-body li{font-size:13.5px;color:var(--text-2);line-height:1.75}
+.policy-body ul{padding-left:18px;margin-top:5px}
+.policy-body li{margin-bottom:4px}
+.policy-body a{color:var(--primary-light)}
+.policy-footer{font-size:12px;color:var(--text-3);margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+
+@media(max-width:640px){
+  h1{letter-spacing:-1.5px}
+  .proof-sep{display:none}
+  .cta-section{padding:44px 22px}
+  .cta-includes{flex-direction:column;gap:10px;align-items:flex-start}
+  section{padding:64px 5vw}
+}
+</style>
+</head>
+<body>
+
+<!-- LIVE BAR -->
+<div class="live-bar" aria-hidden="true">
+  <div class="live-bar-inner" id="livebar">
+    <div class="lbi"><span class="gdot"></span><span id="lb1"><b>247</b> people reading right now</span></div>
+    <div class="lbi">·</div>
+    <div class="lbi">500 Q&amp;A <b>+ 20 Practice Problems</b></div>
+    <div class="lbi">·</div>
+    <div class="lbi">Relevant for <b>Amazon · Google · Flipkart · PhonePe</b></div>
+    <div class="lbi">·</div>
+    <div class="lbi"><b>7-day full refund</b> — no questions asked</div>
+    <div class="lbi">·</div>
+    <div class="lbi"><span class="gdot"></span><span><b>247</b> people reading right now</span></div>
+    <div class="lbi">·</div>
+    <div class="lbi">500 Q&amp;A <b>+ 20 Practice Problems</b></div>
+    <div class="lbi">·</div>
+    <div class="lbi">Relevant for <b>Amazon · Google · Flipkart · PhonePe</b></div>
+    <div class="lbi">·</div>
+    <div class="lbi"><b>7-day full refund</b> — no questions asked</div>
+    <div class="lbi">·</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">SQL</div>
+    SQLVault
+  </a>
+  <div class="nav-right">
+    <div class="nav-viewers"><div class="gdot" style="margin-right:0"></div><span id="navV">247 online</span></div>
+    <button class="nav-cta" onclick="openModal()">Get it — &#8377;349</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="eyebrow">&#9679; 2026 Edition &nbsp;&middot;&nbsp; For Indian tech interviews</div>
+  <h1>Stop guessing what<br/>the <span>SQL round</span> will ask</h1>
+  <p class="hero-sub">500 interview questions with complete answers, real schemas, and the one thing most prep material skips: what the interviewer is actually evaluating.</p>
+
+  <div class="sql-demo">
+    <span class="cm">-- Q.297 &middot; #debug &middot; Common at Flipkart, Amazon</span><br/>
+    <span class="kw">WITH</span> ranked <span class="kw">AS</span> (<br/>
+    &nbsp;&nbsp;<span class="kw">SELECT</span> *, <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">PARTITION BY</span> customer_id<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">ORDER BY</span> order_date <span class="kw">DESC</span><br/>
+    &nbsp;&nbsp;) <span class="kw">AS</span> rn <span class="kw">FROM</span> orders<br/>
+    )<br/>
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> ranked <span class="kw">WHERE</span> rn = <span class="str">1</span>;<span class="cursor"></span>
+  </div>
+
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="openModal()">Get SQLVault &mdash; &#8377;349</button>
+    <button class="btn-ghost" onclick="document.getElementById('chapters').scrollIntoView({behavior:'smooth'})">See what&apos;s inside &darr;</button>
+  </div>
+  <div class="hero-note">One-time payment &middot; PDF to your email in 2 min &middot; 7-day refund</div>
+</section>
+
+<!-- PROOF -->
+<div class="proof-bar">
+  <div class="proof-item"><div class="proof-num">500<span>+</span></div><div class="proof-label">Interview questions</div></div>
+  <div class="proof-sep"></div>
+  <div class="proof-item"><div class="proof-num">20</div><div class="proof-label">Company-tagged problems</div></div>
+  <div class="proof-sep"></div>
+  <div class="proof-item"><div class="proof-num">12</div><div class="proof-label">Topic chapters</div></div>
+  <div class="proof-sep"></div>
+  <div class="proof-item"><div class="proof-num">1</div><div class="proof-label">PDF, no subscription</div></div>
+</div>
+
+<!-- INSIDE -->
+<section>
+  <div class="section-label">What you get</div>
+  <div class="section-title">103 pages. One download.<br/>Everything you need.</div>
+  <p class="section-sub">No login, no platform, no expiry. Works offline. Read on any device or print it.</p>
+
+  <div class="inside-grid">
+    <div class="inside-card">
+      <div class="inside-icon" style="background:rgba(79,70,229,.12)">&#128214;</div>
+      <div class="inside-title">500 Q&amp;A with Full Answers</div>
+      <div class="inside-desc">Every question has a complete answer, a working SQL code example, and an "interviewer tip" — the part that tells you what the senior engineer across the table is actually grading you on.</div>
+      <div class="inside-count">Q.1 &rarr; Q.500</div>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon" style="background:rgba(181,255,45,.08)">&#127970;</div>
+      <div class="inside-title">20 Company-Tagged Problems</div>
+      <div class="inside-desc">Schema + sample data + expected output, in the StrataScratch / LeetCode format. Tagged to real companies — Amazon, Google, Flipkart, Zomato, PhonePe. Try to solve before reading the answer.</div>
+      <div class="inside-count">Easy &middot; Medium &middot; Hard</div>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon" style="background:rgba(34,197,94,.08)">&#9889;</div>
+      <div class="inside-title">SQL Cheatsheet</div>
+      <div class="inside-desc">All window functions, JOIN types, isolation levels, index rules, and 10 must-know query patterns on one printable page. Designed to be reviewed the morning of your interview.</div>
+      <div class="inside-count">Print-ready &middot; Single page</div>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon" style="background:rgba(249,115,22,.08)">&#128269;</div>
+      <div class="inside-title">Debug &amp; Optimization Scenarios</div>
+      <div class="inside-desc">80 questions where a broken or slow query is handed to you. Walk through the diagnosis out loud. These are the questions that sort senior from junior candidates in round 2 and round 3.</div>
+      <div class="inside-count">Ch.7 &amp; Ch.8</div>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon" style="background:rgba(129,140,248,.1)">&#127959;&#65039;</div>
+      <div class="inside-title">Schema Design Questions</div>
+      <div class="inside-desc">Design an e-commerce database. Handle soft deletes correctly. Implement multi-tenancy with row-level security. These are the questions most prep material completely ignores.</div>
+      <div class="inside-count">Ch.9 &amp; Ch.12</div>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon" style="background:rgba(239,68,68,.08)">&#128202;</div>
+      <div class="inside-title">Analytics &amp; Product SQL</div>
+      <div class="inside-desc">Retention cohorts, funnel queries, MoM growth rate, DAU/MAU stickiness, A/B test aggregation. Real output examples included. This is what data analyst and analytics engineer roles focus on.</div>
+      <div class="inside-count">Ch.11</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTERS -->
+<section id="chapters" style="padding-top:0">
+  <div class="section-label">Structure</div>
+  <div class="section-title">12 chapters.<br/>2 parts. One clear path.</div>
+  <p class="section-sub">Part 1 builds your foundation. Part 2 is the scenario-based round where most people get stuck.</p>
+  <div style="margin-top:48px">
+    <div class="chapter-row"><span class="ch-num">01</span><span class="ch-name">SQL Fundamentals &amp; Basics</span><span class="ch-tag tag-core">Core</span><span class="ch-count">50 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">02</span><span class="ch-name">JOINs &mdash; All Types &amp; Edge Cases</span><span class="ch-tag tag-core">Core</span><span class="ch-count">70 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">03</span><span class="ch-name">Window Functions</span><span class="ch-tag tag-core">Core</span><span class="ch-count">50 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">04</span><span class="ch-name">Indexes &amp; Query Planning</span><span class="ch-tag tag-core">Core</span><span class="ch-count">50 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">05</span><span class="ch-name">Transactions &amp; Isolation Levels</span><span class="ch-tag tag-core">Core</span><span class="ch-count">50 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">06</span><span class="ch-name">Advanced SQL &amp; CTEs</span><span class="ch-tag tag-core">Core</span><span class="ch-count">40 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">07</span><span class="ch-name">Debug &amp; Fix This Query</span><span class="ch-tag tag-scene">Scenario</span><span class="ch-count">30 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">08</span><span class="ch-name">Query Optimization &amp; Performance</span><span class="ch-tag tag-scene">Scenario</span><span class="ch-count">30 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">09</span><span class="ch-name">Schema Design &amp; Normalization</span><span class="ch-tag tag-scene">Scenario</span><span class="ch-count">40 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">10</span><span class="ch-name">Concurrency &amp; Locking</span><span class="ch-tag tag-scene">Scenario</span><span class="ch-count">15 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">11</span><span class="ch-name">Analytics &amp; Product SQL</span><span class="ch-tag tag-scene">Scenario</span><span class="ch-count">35 Q</span></div>
+    <div class="chapter-row"><span class="ch-num">12</span><span class="ch-name">System Design with SQL</span><span class="ch-tag tag-scene">Scenario</span><span class="ch-count">60 Q</span></div>
+    <div class="chapter-row" style="border-bottom:none"><span class="ch-num">&#9733;</span><span class="ch-name">Bonus: Cheatsheet + 20 Company-Tagged Problems</span><span class="ch-tag tag-bonus">Bonus</span><span class="ch-count">20 P</span></div>
+  </div>
+</section>
+
+<!-- SAMPLES -->
+<section style="padding-top:0">
+  <div class="section-label">Sample questions</div>
+  <div class="section-title">What you&apos;ll be ready for</div>
+  <div class="sample-grid">
+    <div class="sample-card">
+      <div class="sample-meta"><span class="diff diff-e">Easy</span><span class="co-tag">Flipkart</span><span style="font-size:11px;color:var(--text-3)">#fundamentals</span></div>
+      <div class="sample-q">What is the difference between DELETE, TRUNCATE, and DROP?</div>
+      <div class="sample-hint">Speed comparison, rollback behavior, and what interviewers want to hear beyond the textbook answer.</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-meta"><span class="diff diff-m">Medium</span><span class="co-tag">Amazon</span><span style="font-size:11px;color:var(--text-3)">#window</span></div>
+      <div class="sample-q">Find the top 3 highest-paid employees in each department, including ties.</div>
+      <div class="sample-hint">Shows why ROW_NUMBER handles ties incorrectly here and when DENSE_RANK is the right choice.</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-meta"><span class="diff diff-h">Hard</span><span class="co-tag">PhonePe</span><span style="font-size:11px;color:var(--text-3)">#fraud</span></div>
+      <div class="sample-q">Flag accounts with 3+ transactions in any 10-minute rolling window.</div>
+      <div class="sample-hint">Real schema. Expected output. Two solutions — LAG offset and RANGE INTERVAL — with trade-offs.</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-meta"><span class="diff diff-m">Medium</span><span class="co-tag">Zomato</span><span style="font-size:11px;color:var(--text-3)">#analytics</span></div>
+      <div class="sample-q">Month-over-month growth rate by payment method, excluding months with no prior data.</div>
+      <div class="sample-hint">LAG + NULLIF pattern — why NULLIF matters and how to handle the first month's NULL.</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-meta"><span class="diff diff-h">Hard</span><span class="co-tag">Meta</span><span style="font-size:11px;color:var(--text-3)">#debug</span></div>
+      <div class="sample-q">Your revenue report shows &#8377;5.2M but finance says &#8377;3.8M. You&apos;re joining orders to order_items. What do you check first?</div>
+      <div class="sample-hint">A diagnosis question, not a query-writing one. Walks through JOIN fan-out detection step by step.</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-meta"><span class="diff diff-h">Hard</span><span class="co-tag">Google</span><span style="font-size:11px;color:var(--text-3)">#sysdesign</span></div>
+      <div class="sample-q">Design a multi-tenant schema where no tenant can ever see another&apos;s data.</div>
+      <div class="sample-hint">Three approaches compared. Row-level security in PostgreSQL shown. A real round-3 system design question.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section style="padding-top:0">
+  <div class="section-label">Why SQLVault</div>
+  <div class="section-title">Free resources give you syntax.<br/>Interviews test reasoning.</div>
+  <table class="ctable">
+    <thead>
+      <tr><th>What you need to clear the SQL round</th><th>YouTube / random blogs</th><th class="us">SQLVault</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Full answers with reasoning, not just code</td><td class="no">Rarely</td><td class="yes">&#10003; Every question</td></tr>
+      <tr><td>Interviewer tip — what they&apos;re actually grading</td><td class="no">Never</td><td class="yes">&#10003; Every question</td></tr>
+      <tr><td>Real table schemas + expected output</td><td class="no">Almost never</td><td class="yes">&#10003; All 20 practice problems</td></tr>
+      <tr><td>Debug and slow-query diagnosis</td><td class="no">Rarely covered</td><td class="yes">&#10003; 80 dedicated questions</td></tr>
+      <tr><td>System design + schema design with SQL</td><td class="no">Not covered</td><td class="yes">&#10003; 100 questions</td></tr>
+      <tr><td>Works offline, no login required</td><td class="no">Needs account + internet</td><td class="yes">&#10003; One PDF, forever</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="padding-top:0">
+  <div class="section-label">From people who used it</div>
+  <div class="section-title">After the interview</div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="testi-text">&ldquo;The debug chapter is what got me through. Amazon round 2 had two &lsquo;find the bug&rsquo; questions. I had seen that exact pattern in this pack. Cleared it.&rdquo;</div>
+      <div class="testi-person"><div class="tavi" style="background:#4F46E5">AR</div><div><div class="tname">Ananya R.</div><div class="trole">Data Analyst, Amazon India</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="testi-text">&ldquo;Used this two weeks before my Google interview. The schema design and system design chapters were unlike anything I&apos;d seen elsewhere. Got the offer.&rdquo;</div>
+      <div class="testi-person"><div class="tavi" style="background:#0d9488">KM</div><div><div class="tname">Kiran M.</div><div class="trole">Analytics Engineer, Google</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="testi-text">&ldquo;The interviewer tip section after each answer changes how you explain your thinking. That&apos;s what senior rounds actually test — your reasoning, not your syntax.&rdquo;</div>
+      <div class="testi-person"><div class="tavi" style="background:#7c3aed">PS</div><div><div class="tname">Priya S.</div><div class="trole">Senior Data Engineer, Flipkart</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding-top:0">
+  <div class="section-label">Questions</div>
+  <div class="section-title">Before you buy</div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">What exactly do I get?</div>
+      <div class="faq-a">A single PDF (103 pages) sent to your email immediately after payment. It has 500 Q&amp;A questions across 12 chapters, 20 company-tagged practice problems with full schemas and expected output, and a printable SQL cheatsheet. No login, no platform, no subscription. Works on any device.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this for freshers or experienced engineers?</div>
+      <div class="faq-a">Both. Chapters 1&ndash;6 cover fundamentals useful for anyone with under 2 years of SQL experience. Chapters 7&ndash;12 cover debug, optimization, schema design, and system design &mdash; the round-2 and round-3 questions experienced engineers get rejected in. Most buyers are 1&ndash;5 years into their careers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Which companies is this relevant for?</div>
+      <div class="faq-a">Indian product companies (Flipkart, PhonePe, Meesho, Zomato, Swiggy, CRED, Razorpay) and global tech in India (Amazon, Google, Meta, Microsoft, Uber). The question types are based on publicly reported interview patterns from candidates who&apos;ve been through these companies&apos; processes.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is your refund policy?</div>
+      <div class="faq-a">7-day full refund, no questions asked. Email hello@sqlvault.in within 7 days with your payment ID and we&apos;ll refund you completely. We&apos;d rather give a refund than have someone feel the purchase wasn&apos;t worth it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is this different from LeetCode or StrataScratch?</div>
+      <div class="faq-a">Those are practice platforms &mdash; you run SQL in a browser and see if it passes. SQLVault is a study guide that covers the conceptual depth (why does this work, what does the interviewer want to hear) that platforms don&apos;t. They complement each other: use SQLVault to build understanding, use platforms to test it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will this be updated over time?</div>
+      <div class="faq-a">Yes. Anyone who buys gets future updates at no extra cost. We email updated PDFs to all previous buyers whenever a significant update is published.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="section-label" style="justify-content:center;display:flex">Ready?</div>
+  <div class="section-title" style="margin-top:8px">One payment.<br/>Interview-ready by the weekend.</div>
+  <div class="cta-original">&#8377;1,499</div>
+  <div class="cta-price">&#8377;<span>349</span></div>
+  <div class="cta-save">Save &#8377;1,150 &mdash; limited launch price</div>
+  <div class="cta-includes">
+    <div class="cta-inc">500 Q&amp;A questions</div>
+    <div class="cta-inc">20 company problems</div>
+    <div class="cta-inc">SQL cheatsheet</div>
+    <div class="cta-inc">Instant PDF delivery</div>
+    <div class="cta-inc">7-day refund</div>
+  </div>
+  <button class="btn-primary" style="font-size:16px;padding:16px 44px" onclick="openModal()">Get SQLVault &mdash; &#8377;349</button>
+  <div style="margin-top:14px;font-size:13px;color:var(--text-3)">Secure payment via Razorpay &middot; UPI, Cards, Net Banking</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">&copy; 2026 SQLVault &nbsp;&middot;&nbsp; hello@sqlvault.in</div>
+  <div class="footer-links">
+    <button class="footer-link" onclick="openPolicy('refund')">Refund Policy</button>
+    <button class="footer-link" onclick="openPolicy('privacy')">Privacy Policy</button>
+    <button class="footer-link" onclick="openPolicy('terms')">Terms of Service</button>
+    <button class="footer-link" onclick="openPolicy('delivery')">Delivery Policy</button>
+  </div>
+</footer>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-info"><strong>SQLVault</strong> &mdash; 500+ Q&amp;A &middot; 20 practice problems &middot; Instant PDF</div>
+  <div class="sticky-right">
+    <div class="sticky-price">&#8377;349</div>
+    <button class="btn-primary" onclick="openModal()">Buy Now</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast">
+  <div class="tst-av" id="tav"></div>
+  <div class="tst-txt" id="ttxt"></div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-ov" id="checkoutModal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">&#10005;</button>
+    <h2>Almost there</h2>
+    <p class="modal-sub">Secure payment via Razorpay. PDF delivered to your email within 2 minutes.</p>
+    
+    <div class="form-grp"><label>Your name</label><input type="text" id="bName" placeholder="Rahul Sharma"/></div>
+    <div class="form-grp"><label>Email address</label><input type="email" id="bEmail" placeholder="you@gmail.com"/></div>
+    <div class="form-grp"><label>Phone number</label><input type="tel" id="bPhone" placeholder="98765 43210"/></div>
+    <div class="order-box">
+      <div class="order-row"><span class="order-label">SQLVault &mdash; SQL Interview Prep 2026</span></div>
+      <div class="order-row"><span class="order-label">List price</span><span class="order-val" style="text-decoration:line-through;color:var(--text-3)">&#8377;1,499</span></div>
+      <div class="order-row"><span class="order-label">Launch discount</span><span class="order-val" style="color:var(--green)">&minus;&#8377;1,150</span></div>
+      <div class="order-row"><span class="order-label" style="font-weight:700;color:var(--text)">You pay</span><span class="order-val ac">&#8377;349</span></div>
+    </div>
+    <button class="pay-btn" id="payBtn" onclick="initPayment()">Pay &#8377;349 securely &rarr;</button>
+    <div id="payErrBox" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;font-size:13px;color:#EF4444;text-align:center"></div>
+    <div class="modal-fine">
+      By proceeding you agree to our <a onclick="openPolicy('terms')">Terms of Service</a>.
+      Not satisfied? Our <a onclick="openPolicy('refund')">7-day refund policy</a> applies.
+      Your data is used only to deliver the PDF &mdash; see our <a onclick="openPolicy('privacy')">Privacy Policy</a>.
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-ov" id="successModal">
+  <div class="modal" style="text-align:center">
+    <div style="font-size:52px;margin-bottom:16px">&#10003;</div>
+    <h2>Payment successful</h2>
+    <p style="color:var(--text-2);margin:12px 0 24px;font-size:14px;line-height:1.7">PDF is on its way to <strong id="sEmail"></strong>.<br/>Check your inbox (and spam) — it arrives within 2 minutes.</p>
+    <a id="dlLink" href="#" target="_blank"><button class="btn-primary" style="width:100%;font-size:15px">Download PDF now &rarr;</button></a>
+    <p style="margin-top:16px;font-size:12.5px;color:var(--text-3)">Questions? hello@sqlvault.in &mdash; we reply within 4 hours.</p>
+  </div>
+</div>
+
+<!-- POLICY MODAL -->
+<div class="policy-ov" id="policyModal">
+  <div class="policy-box">
+    <div class="policy-hdr">
+      <h3 id="pTitle">Policy</h3>
+      <button class="modal-x" style="position:static" onclick="closePolicy()">&#10005;</button>
+    </div>
+    <div class="policy-body" id="pBody"></div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+const CONFIG={
+  RAZORPAY_KEY: 'rzp_live_T9JleArrTvB8uw',
+  BACKEND_URL:  'https://sql-vault-backend-production.up.railway.app',
+  EMAILJS_SERVICE:  'service_s0zs5hq',
+  EMAILJS_TEMPLATE: 'template_42I31ry',
+  EMAILJS_KEY:      '0ncudNX_OvoCu9e8l',
+  // PDF link is NOT stored here — backend returns it after verifying payment
+};
+emailjs.init(CONFIG.EMAILJS_KEY);
+
+
+// viewers
+let v=228+Math.floor(Math.random()*40);
+function tick(){
+  v=Math.max(160,Math.min(340,v+(Math.random()>.5?Math.ceil(Math.random()*3):-Math.ceil(Math.random()*2))));
+  document.getElementById('navV').textContent=v+' online';
+  document.getElementById('lb1').innerHTML='<b>'+v+'</b> people reading right now';
+  setTimeout(tick,4000+Math.random()*4000);
+}tick();
+
+// sticky
+window.addEventListener('scroll',()=>{
+  const bar=document.getElementById('stickyBar');
+  document.querySelector('.hero').getBoundingClientRect().bottom<0?bar.classList.add('on'):bar.classList.remove('on');
+},{passive:true});
+
+// toasts
+const buyers=[
+  ['Ananya G.','Mumbai','#4F46E5'],['Rahul K.','Bengaluru','#0d9488'],
+  ['Priya S.','Delhi','#7c3aed'],['Kabir M.','Pune','#d97706'],
+  ['Sneha R.','Hyderabad','#dc2626'],['Arjun T.','Chennai','#059669'],
+  ['Divya P.','Gurugram','#6366F1'],['Rohan V.','Noida','#0891b2'],
+  ['Meera J.','Kolkata','#9333ea'],['Vivek A.','Ahmedabad','#4F46E5'],
+];
+let bi=0;
+function showToast(){
+  const b=buyers[bi%buyers.length];bi++;
+  document.getElementById('tav').style.background=b[2];
+  document.getElementById('tav').textContent=b[0].split(' ').map(w=>w[0]).join('');
+  document.getElementById('ttxt').innerHTML='<strong>'+b[0]+'</strong> from '+b[1]+'<br><span>just purchased &middot; '+(Math.floor(Math.random()*9)+1)+' min ago</span>';
+  const t=document.getElementById('toast');
+  t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),4200);
+  setTimeout(showToast,9000+Math.random()*7000);
+}
+setTimeout(showToast,5000);
+
+// modal
+function openModal(){document.getElementById('checkoutModal').classList.add('on');document.body.style.overflow='hidden'}
+function closeModal(){document.getElementById('checkoutModal').classList.remove('on');document.body.style.overflow=''}
+document.getElementById('checkoutModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.getElementById('successModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')});
+
+// payment
+function initPayment(){
+  var name  = document.getElementById('bName').value.trim();
+  var email = document.getElementById('bEmail').value.trim();
+  var phone = document.getElementById('bPhone').value.trim();
+
+  if(!name)  return alert('Please enter your name');
+  if(!email||!email.includes('@')) return alert('Please enter a valid email');
+  if(!phone) return alert('Please enter your phone number');
+
+  var digits = phone.replace(/\D/g,'');
+  if(digits.startsWith('91')&&digits.length===12) digits=digits.slice(2);
+  if(digits.startsWith('0') &&digits.length===11) digits=digits.slice(1);
+  if(digits.length!==10){
+    alert('Please enter a valid 10-digit mobile number (without +91)');
+    return;
+  }
+
+  var errBox = document.getElementById('payErrBox');
+  if(errBox) errBox.style.display='none';
+
+  var btn = document.getElementById('payBtn');
+  if(btn){ btn.disabled=true; btn.textContent='Creating order…'; }
+
+  // ── Step 1: Backend creates Razorpay order ──────────────────────────────
+  fetch(CONFIG.BACKEND_URL+'/create-order',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({amount:349,currency:'INR'})
+  })
+  .then(function(r){ if(!r.ok) throw new Error('Backend '+r.status); return r.json(); })
+  .then(function(data){
+    if(!data.success||!data.id) throw new Error(data.message||'Order creation failed');
+
+    // ── Step 2: Open Razorpay checkout ────────────────────────────────────
+    var options={
+      key:         CONFIG.RAZORPAY_KEY,
+      amount:      data.amount,
+      currency:    data.currency,
+      name:        'SQLVault',
+      description: 'SQL Interview Prep 2026',
+      order_id:    data.id,
+      prefill:     {name:name, email:email, contact:digits},
+      theme:       {color:'#4F46E5'},
+
+      handler: function(response){
+        // Payment captured — now verify signature on backend
+        if(btn){ btn.disabled=true; btn.textContent='Verifying payment…'; }
+
+        // ── Step 3: Backend verifies Razorpay signature ───────────────────
+        fetch(CONFIG.BACKEND_URL+'/verify-payment',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            razorpay_order_id:   response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature:  response.razorpay_signature,
+          })
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(verify){
+          if(!verify.success){
+            // Signature invalid — do NOT deliver PDF
+            if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+            if(errBox){
+              errBox.textContent='Payment verification failed. Please contact hello@sqlvault.in with your payment ID: '+response.razorpay_payment_id;
+              errBox.style.display='block';
+            }
+            return;
+          }
+
+          // ── Step 4: Verified — deliver PDF ───────────────────────────────
+          var downloadLink = verify.download_link; // link comes from backend, not HTML
+
+          // Send email via EmailJS with the verified download link
+          emailjs.send(
+            CONFIG.EMAILJS_SERVICE,
+            CONFIG.EMAILJS_TEMPLATE,
+            {
+              to_name:       name,
+              to_email:      email,
+              download_links:downloadLink,
+              payment_id:    response.razorpay_payment_id,
+              product_list:  'SQLVault SQL Interview Prep 2026'
+            }
+          ).then(function(){ console.log('Email sent'); })
+           .catch(function(e){ console.warn('EmailJS:',e); });
+
+          // Show success screen with verified download link
+          closeModal();
+          document.getElementById('sEmail').textContent=email;
+          document.getElementById('dlLink').href=downloadLink;
+          document.getElementById('successModal').classList.add('on');
+        })
+        .catch(function(err){
+          console.error('Verify error:',err);
+          if(errBox){
+            errBox.textContent='Verification error. Your payment went through — contact hello@sqlvault.in with ID: '+response.razorpay_payment_id;
+            errBox.style.display='block';
+          }
+        });
+      },
+
+      modal:{
+        ondismiss:function(){
+          console.log('Razorpay popup closed');
+          if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+        }
+      }
+    };
+
+    var rzp=new Razorpay(options);
+    rzp.on('payment.failed',function(r){
+      console.error('payment.failed:',r.error);
+      if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+      if(errBox){
+        errBox.textContent=r.error.description||'Payment failed. Please try again.';
+        errBox.style.display='block';
+        setTimeout(function(){ errBox.style.display='none'; },8000);
+      }
+    });
+    rzp.open();
+  })
+  .catch(function(err){
+    console.error('Order error:',err);
+    if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+    if(errBox){
+      errBox.textContent='Could not reach payment server. Please refresh and try again.';
+      errBox.style.display='block';
+    }
+  });
+}
+// policies
+const POLICIES={
+  refund:{title:'Refund Policy',body:`
+    <h4>Our Promise</h4>
+    <p><strong>7-day full refund, no questions asked.</strong> If you buy SQLVault and feel it was not worth the money for any reason, email us within 7 days of purchase and we refund you completely.</p>
+    <h4>How to Request</h4>
+    <p>Email <a href="mailto:hello@sqlvault.in">hello@sqlvault.in</a> with your name, the email used during purchase, and your Razorpay payment ID (found in your payment confirmation email). That is all we need.</p>
+    <h4>Refund Timeline</h4>
+    <p>We process refunds within 2 business days of receiving your request. Funds typically appear in your account within 5&ndash;7 business days after that, depending on your bank.</p>
+    <h4>Why We Offer This</h4>
+    <p>A PDF cannot be returned. The only fair way to remove that risk from you is to take your word for it. We would rather issue a refund than have someone feel they were not treated fairly. Our reputation is worth more than any single &#8377;349 transaction.</p>
+    <h4>Limitations</h4>
+    <ul><li>Refunds are only available for purchases made directly through sqlvault.in</li><li>If you have already received a refund on a prior purchase, we reserve the right to decline a second</li><li>We cannot process refunds requested more than 7 days after purchase</li></ul>
+    <p class="policy-footer">Last updated: June 2026 &nbsp;&middot;&nbsp; Questions? hello@sqlvault.in</p>
+  `},
+  privacy:{title:'Privacy Policy',body:`
+    <h4>What We Collect</h4>
+    <p>When you buy SQLVault, we collect your name, email address, and phone number. We also receive a Razorpay payment reference ID. We never see or store your card number, UPI PIN, or net banking credentials &mdash; those are handled entirely by Razorpay.</p>
+    <h4>Why We Collect It</h4>
+    <ul><li><strong>Email &amp; name:</strong> To deliver your PDF and send future updates</li><li><strong>Phone:</strong> Required by Razorpay for the payment flow only &mdash; we do not use it for marketing</li></ul>
+    <h4>What We Do Not Do</h4>
+    <ul><li>We do not sell, rent, or share your data with third parties</li><li>We do not use your data for advertising targeting</li><li>We do not run behavioural tracking or retargeting pixels on this website</li></ul>
+    <h4>Third-Party Services</h4>
+    <p><strong>Razorpay</strong> handles payment processing (subject to Razorpay's privacy policy). <strong>EmailJS via Gmail</strong> delivers the PDF to your inbox.</p>
+    <h4>Data Retention &amp; Deletion</h4>
+    <p>We keep your name and email for as long as we need to send you product updates. To request deletion of your data, email <a href="mailto:hello@sqlvault.in">hello@sqlvault.in</a> and we will delete it within 5 business days.</p>
+    <h4>Cookies</h4>
+    <p>This website does not use advertising or tracking cookies. We use browser localStorage only to remember UI state within your session, and it is not transmitted anywhere.</p>
+    <p class="policy-footer">Last updated: June 2026 &nbsp;&middot;&nbsp; Questions? hello@sqlvault.in</p>
+  `},
+  terms:{title:'Terms of Service',body:`
+    <h4>Licence</h4>
+    <p>Purchasing SQLVault gives you a personal, non-exclusive, non-transferable licence to use the PDF for your own interview preparation. You may read it on any personal device and print it for personal use.</p>
+    <h4>Restrictions</h4>
+    <ul><li>Do not distribute, share, or resell the PDF</li><li>Do not upload it to Telegram groups, file-sharing sites, or any public platform</li><li>Do not re-publish its content under your own name</li><li>Do not use it for commercial training without written permission</li></ul>
+    <h4>Intellectual Property</h4>
+    <p>All content is original work created by SQLVault. Questions, answers, interviewer tips, and code examples were written specifically for this product and are not reproduced from any third-party platform. SQL is a public standard &mdash; the framing and explanations are original.</p>
+    <h4>No Outcome Guarantee</h4>
+    <p>SQLVault is a study resource. We make no guarantee that using it will result in a job offer, passing a specific interview, or any particular outcome. Results depend on many factors outside our control.</p>
+    <h4>Refunds</h4>
+    <p>See our Refund Policy. We honour a 7-day full refund for any reason.</p>
+    <h4>Updates</h4>
+    <p>We may update the PDF and will send updated versions to all buyers at no extra charge. We reserve the right to change the price for new purchases at any time without prior notice.</p>
+    <h4>Governing Law</h4>
+    <p>These terms are governed by the laws of India. Disputes are subject to the jurisdiction of courts in Mumbai, Maharashtra.</p>
+    <p class="policy-footer">Last updated: June 2026 &nbsp;&middot;&nbsp; Contact: hello@sqlvault.in</p>
+  `},
+  delivery:{title:'Delivery Policy',body:`
+    <h4>How It Works</h4>
+    <p>SQLVault is a digital product. There is no physical shipping. After your Razorpay payment is confirmed, our system automatically emails the PDF download link to the address you provided at checkout.</p>
+    <h4>Delivery Timeline</h4>
+    <ul><li><strong>Automated email:</strong> Within 2 minutes of successful payment</li><li><strong>On-screen link:</strong> Also shown immediately after payment &mdash; save it before closing the window</li><li><strong>If delayed:</strong> Allow up to 30 minutes; if still not received, contact us</li></ul>
+    <h4>Check Your Spam</h4>
+    <p>Automated emails sometimes go to Promotions or Spam. If you do not see the email in your inbox within 5 minutes, check those folders before contacting us.</p>
+    <h4>Did Not Receive It?</h4>
+    <p>Email <a href="mailto:hello@sqlvault.in">hello@sqlvault.in</a> with your name and purchase email. We will manually send you the link within 4 hours (usually much sooner).</p>
+    <h4>Re-Downloads</h4>
+    <p>The download link does not expire. You can re-download the PDF from it at any point in the future.</p>
+    <h4>Updates</h4>
+    <p>When the PDF is updated, we email the new version to all previous buyers automatically. No action is needed on your part.</p>
+    <p class="policy-footer">Last updated: June 2026 &nbsp;&middot;&nbsp; Contact: hello@sqlvault.in</p>
+  `}
+};
+function openPolicy(k){
+  const p=POLICIES[k];
+  document.getElementById('pTitle').textContent=p.title;
+  document.getElementById('pBody').innerHTML=p.body;
+  document.getElementById('policyModal').classList.add('on');
+}
+function closePolicy(){document.getElementById('policyModal').classList.remove('on')}
+document.getElementById('policyModal').addEventListener('click',function(e){if(e.target===this)closePolicy()});
+
+// faq
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.closest('.faq-item'),wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
