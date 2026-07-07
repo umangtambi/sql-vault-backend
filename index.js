@@ -16,6 +16,40 @@ const razorpay = new Razorpay({
 
 const PDF_LINK = process.env.PDF_DOWNLOAD_LINK || 'https://drive.google.com/file/d/17t9TVLoeR9iwNb19X1OKdDG2iGecYLNP/view?usp=sharing';
 
+// --- Simple in-memory funnel tracking ---
+// NOTE: resets on server restart/redeploy. Good enough for quick signal,
+// not a permanent analytics store. Move to a DB later if this needs to persist.
+const stats = {
+  startedAt: new Date().toISOString(),
+  totals: { page_view: 0, modal_open: 0, payment_attempt: 0, payment_success: 0 },
+  bySource: {}, // { instagram: { page_view: 5, modal_open: 2, ... }, direct: {...} }
+  recentEvents: [], // last 50 events for quick inspection
+};
+
+function recordEvent(event, source) {
+  const src = source || 'direct';
+  if (!stats.totals[event]) stats.totals[event] = 0;
+  stats.totals[event]++;
+
+  if (!stats.bySource[src]) stats.bySource[src] = {};
+  if (!stats.bySource[src][event]) stats.bySource[src][event] = 0;
+  stats.bySource[src][event]++;
+
+  stats.recentEvents.unshift({ event, source: src, at: new Date().toISOString() });
+  if (stats.recentEvents.length > 50) stats.recentEvents.pop();
+}
+
+app.post('/track', (req, res) => {
+  const { event, source } = req.body || {};
+  if (!event) return res.status(400).json({ success: false, message: 'Missing event' });
+  recordEvent(event, source);
+  res.json({ success: true });
+});
+
+app.get('/stats', (req, res) => {
+  res.json(stats);
+});
+
 app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'SQLVault Backend is Live!' });
 });
@@ -49,6 +83,7 @@ app.post('/verify-payment', (req, res) => {
 
   if (expected === razorpay_signature) {
     console.log('Payment verified:', razorpay_payment_id);
+    recordEvent('payment_success', req.body.source);
     res.json({ success: true, payment_id: razorpay_payment_id, download_link: PDF_LINK });
   } else {
     console.warn('Invalid signature:', razorpay_payment_id);
