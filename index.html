@@ -4,8 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SQLVault — SQL Interview Prep for Indian Tech Roles</title>
+<meta name="description" content="500 SQL interview questions with full answers for Indian tech interviews — Amazon, Flipkart, PhonePe, Google. ₹100, instant PDF."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/></noscript>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -67,6 +69,14 @@ h1 span{color:var(--accent)}
 .proof-num span{color:var(--accent)}
 .proof-label{font-size:12px;color:var(--text-3);margin-top:2px}
 .proof-sep{width:1px;height:40px;background:var(--border)}
+
+/* SHOT GALLERY */
+.shot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.shot-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all .2s}
+.shot-card:hover{border-color:var(--primary-light);transform:translateY(-3px)}
+.shot-card img{width:100%;display:block;border-bottom:1px solid var(--border)}
+.shot-cap{padding:14px 18px;font-size:12.5px;color:var(--text-3);font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:.3px}
+@media (max-width:900px){.shot-grid{grid-template-columns:1fr}}
 
 /* SECTIONS */
 section{padding:90px 5vw}
@@ -250,7 +260,7 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
   </a>
   <div class="nav-right">
     <div class="nav-viewers"><div class="gdot" style="margin-right:0"></div><span id="navV">247 online</span></div>
-    <button class="nav-cta" onclick="openModal()">Get it — &#8377;349</button>
+    <button class="nav-cta" onclick="openModal()">Get it — &#8377;100</button>
   </div>
 </nav>
 
@@ -273,13 +283,32 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
   </div>
 
   <div class="hero-actions">
-    <button class="btn-primary" onclick="openModal()">Get SQLVault &mdash; &#8377;349</button>
+    <button class="btn-primary" onclick="openModal()">Get SQLVault &mdash; &#8377;100</button>
     <button class="btn-ghost" onclick="document.getElementById('chapters').scrollIntoView({behavior:'smooth'})">See what&apos;s inside &darr;</button>
   </div>
   <div class="hero-note">One-time payment &middot; PDF to your email in 2 min &middot; 7-day refund</div>
 </section>
 
-<!-- PROOF -->
+<!-- REAL PAGES -->
+<section style="padding-top:0">
+  <div class="section-label">Straight from the PDF</div>
+  <div class="section-title">One PDF. Every solution included.</div>
+  <p class="section-sub">Not a mockup &mdash; these are the actual pages. Every one of the 500 questions ships with its full worked solution in the same file. No separate answer key, no upsell.</p>
+  <div class="shot-grid">
+    <div class="shot-card">
+      <img src="images/q16-session-duration-analysis.jpg" alt="Session Duration Analysis sample question page" loading="lazy" width="700" height="597"/>
+      <div class="shot-cap">Problem 16 &middot; Session Duration Analysis &middot; Airbnb / Uber</div>
+    </div>
+    <div class="shot-card">
+      <img src="images/q18-rapid-fire-fraud.jpg" alt="Detect Rapid-Fire Fraud Transactions sample question page" loading="lazy" width="700" height="537"/>
+      <div class="shot-cap">Problem 18 &middot; Detect Rapid-Fire Fraud &middot; PhonePe / CRED</div>
+    </div>
+    <div class="shot-card">
+      <img src="images/q20-cohort-retention-m3.jpg" alt="Cohort Retention at Month 3 sample question page" loading="lazy" width="700" height="529"/>
+      <div class="shot-cap">Problem 20 &middot; Cohort Retention at Month 3 &middot; Swiggy / Meesho</div>
+    </div>
+  </div>
+</section>
 <div class="proof-bar">
   <div class="proof-item"><div class="proof-num">500<span>+</span></div><div class="proof-label">Interview questions</div></div>
   <div class="proof-sep"></div>
@@ -291,9 +320,10 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
 </div>
 
 <!-- INSIDE -->
+
 <section>
   <div class="section-label">What you get</div>
-  <div class="section-title">103 pages. One download.<br/>Everything you need.</div>
+  <div class="section-title">215 pages. One download.<br/>Everything you need.</div>
   <p class="section-sub">No login, no platform, no expiry. Works offline. Read on any device or print it.</p>
 
   <div class="inside-grid">
@@ -357,7 +387,6 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
     <div class="chapter-row" style="border-bottom:none"><span class="ch-num">&#9733;</span><span class="ch-name">Bonus: Cheatsheet + 20 Company-Tagged Problems</span><span class="ch-tag tag-bonus">Bonus</span><span class="ch-count">20 P</span></div>
   </div>
 </section>
-
 <!-- SAMPLES -->
 <section style="padding-top:0">
   <div class="section-label">Sample questions</div>
@@ -445,7 +474,7 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
   <div class="faq-list">
     <div class="faq-item">
       <div class="faq-q">What exactly do I get?</div>
-      <div class="faq-a">A single PDF (103 pages) sent to your email immediately after payment. It has 500 Q&amp;A questions across 12 chapters, 20 company-tagged practice problems with full schemas and expected output, and a printable SQL cheatsheet. No login, no platform, no subscription. Works on any device.</div>
+      <div class="faq-a">A single PDF (215 pages) sent to your email immediately after payment. It has 500 Q&amp;A questions across 12 chapters, 20 company-tagged practice problems with full schemas and expected output, and a printable SQL cheatsheet. No login, no platform, no subscription. Works on any device.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Is this for freshers or experienced engineers?</div>
@@ -475,8 +504,8 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
   <div class="section-label" style="justify-content:center;display:flex">Ready?</div>
   <div class="section-title" style="margin-top:8px">One payment.<br/>Interview-ready by the weekend.</div>
   <div class="cta-original">&#8377;1,499</div>
-  <div class="cta-price">&#8377;<span>349</span></div>
-  <div class="cta-save">Save &#8377;1,150 &mdash; limited launch price</div>
+  <div class="cta-price">&#8377;<span>100</span></div>
+  <div class="cta-save">Save &#8377;1,399 &mdash; limited launch price</div>
   <div class="cta-includes">
     <div class="cta-inc">500 Q&amp;A questions</div>
     <div class="cta-inc">20 company problems</div>
@@ -484,7 +513,7 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
     <div class="cta-inc">Instant PDF delivery</div>
     <div class="cta-inc">7-day refund</div>
   </div>
-  <button class="btn-primary" style="font-size:16px;padding:16px 44px" onclick="openModal()">Get SQLVault &mdash; &#8377;349</button>
+  <button class="btn-primary" style="font-size:16px;padding:16px 44px" onclick="openModal()">Get SQLVault &mdash; &#8377;100</button>
   <div style="margin-top:14px;font-size:13px;color:var(--text-3)">Secure payment via Razorpay &middot; UPI, Cards, Net Banking</div>
 </div>
 
@@ -503,7 +532,7 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
 <div class="sticky-bar" id="stickyBar">
   <div class="sticky-info"><strong>SQLVault</strong> &mdash; 500+ Q&amp;A &middot; 20 practice problems &middot; Instant PDF</div>
   <div class="sticky-right">
-    <div class="sticky-price">&#8377;349</div>
+    <div class="sticky-price">&#8377;100</div>
     <button class="btn-primary" onclick="openModal()">Buy Now</button>
   </div>
 </div>
@@ -527,10 +556,10 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
     <div class="order-box">
       <div class="order-row"><span class="order-label">SQLVault &mdash; SQL Interview Prep 2026</span></div>
       <div class="order-row"><span class="order-label">List price</span><span class="order-val" style="text-decoration:line-through;color:var(--text-3)">&#8377;1,499</span></div>
-      <div class="order-row"><span class="order-label">Launch discount</span><span class="order-val" style="color:var(--green)">&minus;&#8377;1,150</span></div>
-      <div class="order-row"><span class="order-label" style="font-weight:700;color:var(--text)">You pay</span><span class="order-val ac">&#8377;349</span></div>
+      <div class="order-row"><span class="order-label">Launch discount</span><span class="order-val" style="color:var(--green)">&minus;&#8377;1,399</span></div>
+      <div class="order-row"><span class="order-label" style="font-weight:700;color:var(--text)">You pay</span><span class="order-val ac">&#8377;100</span></div>
     </div>
-    <button class="pay-btn" id="payBtn" onclick="initPayment()">Pay &#8377;349 securely &rarr;</button>
+    <button class="pay-btn" id="payBtn" onclick="initPayment()">Pay &#8377;100 securely &rarr;</button>
     <div id="payErrBox" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;font-size:13px;color:#EF4444;text-align:center"></div>
     <div class="modal-fine">
       By proceeding you agree to our <a onclick="openPolicy('terms')">Terms of Service</a>.
@@ -562,8 +591,6 @@ footer{border-top:1px solid var(--border);padding:36px 5vw;display:flex;align-it
   </div>
 </div>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 const CONFIG={
   RAZORPAY_KEY: 'rzp_live_T9JleArrTvB8uw',
@@ -573,7 +600,46 @@ const CONFIG={
   EMAILJS_KEY:      '0ncudNX_OvoCu9e8l',
   // PDF link is NOT stored here — backend returns it after verifying payment
 };
-emailjs.init(CONFIG.EMAILJS_KEY);
+
+// --- lazy-load Razorpay + EmailJS only when checkout is actually opened ---
+// Saves ~193 KiB of JS on every page load for visitors who never click Buy.
+let _paymentScriptsPromise = null;
+function loadScript(src){
+  return new Promise(function(resolve, reject){
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = function(){ reject(new Error('Failed to load '+src)); };
+    document.body.appendChild(s);
+  });
+}
+function loadPaymentScripts(){
+  if(_paymentScriptsPromise) return _paymentScriptsPromise;
+  _paymentScriptsPromise = Promise.all([
+    loadScript('https://checkout.razorpay.com/v1/checkout.js'),
+    loadScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js')
+  ]).then(function(){
+    emailjs.init(CONFIG.EMAILJS_KEY);
+  });
+  return _paymentScriptsPromise;
+}
+
+// --- funnel tracking ---
+function getSource(){
+  var urlSrc = new URLSearchParams(window.location.search).get('utm_source');
+  if(urlSrc){ sessionStorage.setItem('sv_source', urlSrc); return urlSrc; }
+  return sessionStorage.getItem('sv_source') || 'direct';
+}
+function trackEvent(event){
+  try{
+    fetch(CONFIG.BACKEND_URL+'/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event:event, source:getSource()})
+    }).catch(function(){});
+  }catch(e){}
+}
+trackEvent('page_view');
 
 
 // viewers
@@ -613,7 +679,7 @@ function showToast(){
 setTimeout(showToast,5000);
 
 // modal
-function openModal(){document.getElementById('checkoutModal').classList.add('on');document.body.style.overflow='hidden'}
+function openModal(){document.getElementById('checkoutModal').classList.add('on');document.body.style.overflow='hidden';trackEvent('modal_open');loadPaymentScripts().catch(function(e){console.warn('Payment scripts preload:',e)})}
 function closeModal(){document.getElementById('checkoutModal').classList.remove('on');document.body.style.overflow=''}
 document.getElementById('checkoutModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 document.getElementById('successModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')});
@@ -641,12 +707,13 @@ function initPayment(){
 
   var btn = document.getElementById('payBtn');
   if(btn){ btn.disabled=true; btn.textContent='Creating order…'; }
+  trackEvent('payment_attempt');
 
   // ── Step 1: Backend creates Razorpay order ──────────────────────────────
   fetch(CONFIG.BACKEND_URL+'/create-order',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({amount:349,currency:'INR'})
+    body:JSON.stringify({amount:100,currency:'INR'})
   })
   .then(function(r){ if(!r.ok) throw new Error('Backend '+r.status); return r.json(); })
   .then(function(data){
@@ -675,13 +742,14 @@ function initPayment(){
             razorpay_order_id:   response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature:  response.razorpay_signature,
+            source:              getSource(),
           })
         })
         .then(function(r){ return r.json(); })
         .then(function(verify){
           if(!verify.success){
             // Signature invalid — do NOT deliver PDF
-            if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+            if(btn){ btn.disabled=false; btn.textContent='Pay ₹100 securely →'; }
             if(errBox){
               errBox.textContent='Payment verification failed. Please contact hello@sqlvault.in with your payment ID: '+response.razorpay_payment_id;
               errBox.style.display='block';
@@ -724,15 +792,16 @@ function initPayment(){
       modal:{
         ondismiss:function(){
           console.log('Razorpay popup closed');
-          if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+          if(btn){ btn.disabled=false; btn.textContent='Pay ₹100 securely →'; }
         }
       }
     };
 
+    loadPaymentScripts().then(function(){
     var rzp=new Razorpay(options);
     rzp.on('payment.failed',function(r){
       console.error('payment.failed:',r.error);
-      if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+      if(btn){ btn.disabled=false; btn.textContent='Pay ₹100 securely →'; }
       if(errBox){
         errBox.textContent=r.error.description||'Payment failed. Please try again.';
         errBox.style.display='block';
@@ -740,10 +809,18 @@ function initPayment(){
       }
     });
     rzp.open();
+    }).catch(function(err){
+      console.error('Payment scripts failed to load:',err);
+      if(btn){ btn.disabled=false; btn.textContent='Pay ₹100 securely →'; }
+      if(errBox){
+        errBox.textContent='Could not load payment gateway. Please refresh and try again.';
+        errBox.style.display='block';
+      }
+    });
   })
   .catch(function(err){
     console.error('Order error:',err);
-    if(btn){ btn.disabled=false; btn.textContent='Pay ₹349 securely →'; }
+    if(btn){ btn.disabled=false; btn.textContent='Pay ₹100 securely →'; }
     if(errBox){
       errBox.textContent='Could not reach payment server. Please refresh and try again.';
       errBox.style.display='block';
