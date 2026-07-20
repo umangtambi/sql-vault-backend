@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 app.post('/create-order', async (req, res) => {
   try {
     const order = await razorpay.orders.create({
-      amount: 30000,
+      amount: 10000,
       currency: 'INR',
       receipt: 'rcpt_' + Date.now(),
     });
@@ -67,7 +67,9 @@ app.post('/verify-payment', (req, res) => {
     .digest('hex');
   if (expected === razorpay_signature) {
     console.log('Payment verified:', razorpay_payment_id);
-    recordEvent('payment_success', req.body.source);
+    if (!req.body.notrack) {
+      recordEvent('payment_success', req.body.source);
+    }
     res.json({ success: true, payment_id: razorpay_payment_id, download_link: PDF_LINK });
   } else {
     console.warn('Invalid signature:', razorpay_payment_id);
